@@ -1,0 +1,138 @@
+#Options
+GenerateScanner = true
+GenerateParser = true
+Language = Java
+ScannerName = Lexico
+ParserName = Sintatico
+SemanticName = Semantico
+ScannerCaseSensitive = true
+ScannerTable = Full
+Input = Stream
+Parser = LL
+#RegularDefinitions
+id: (_|[a-z]|[A-Z])(_|[a-z]|[A-Z]|[0-9])*
+
+WS: [\ \t \n]
+
+comment: #(_|[a-z]|[A-Z]|[0-9]|[\ \t])*
+
+
+number: [0-9]+
+
+string: \"(_|[a-z]|[A-Z]|[0-9]|[\ \t])*\"
+
+
+#Tokens
+:{WS}
+comment :{comment}
+type: "int"
+repeat: "while"
+condition_if : "if"
+end_if : "endif"
+condition_else: "else"
+true: "true"
+false: "false"
+string: {string}
+
+number: {number}
+id: {id}
+
+
+operator_eq: "=="
+operator_neq: "!="
+operator_and: "&&"
+operator_or: "||"
+
+operator_add: "+"
+operator_sub: "-"
+operator_mul: "*"
+operator_div: "/"
+operator_mod: "%"
+
+end_stmt: ";"
+list_stmt: ";"
+assing: "="
+begin: "{"
+end: "}"
+parenthese_open: "("
+parenthese_close: ")"
+
+
+
+#NonTerminals
+<program>
+<stmts>
+<stmt>
+
+<decl>
+<initializer>
+
+<complement>
+
+<func_call>
+<param>
+
+<if>
+<ifbody>
+<else>
+
+<while>
+
+<assing>
+
+<logical_expr>
+<logical_expr1>
+<relational_expr>
+<relational_expr1>
+<logical_factor>
+<expr>
+<expr1>
+<factor>
+<term>
+<term1>
+
+
+
+<id>
+#Grammar
+<program>		::= begin <stmts>  end;
+<stmts>			::= <stmt><stmts> | comment | î;
+<stmt>			::= <decl>;
+<stmt>			::= begin <stmts> end;//block
+<stmt>			::= <if> | <while>;
+<stmt>			::= <id><complement> end_stmt;
+<stmt>			::= <assing>  end_stmt;
+
+<decl>			::= type <id> <initializer> end_stmt;
+<initializer>		::= assing <expr> | î;
+
+<complement>		::= <assing> | <func_call>;
+
+<assing>			::= <initializer>;
+<func_call>		::= parenthese_open <param> parenthese_close;
+<param>			::= <expr> | string;
+
+<if> 			::= condition_if parenthese_open <relational_expr> parenthese_close <stmt> <else> end_if;
+<else>			::= condition_else <stmt>;
+<else>			::= î;
+
+<while>			::= repeat parenthese_open <relational_expr> parenthese_close <stmt>;
+<relational_expr>		::= <logical_expr><relational_expr1>;
+<relational_expr1>		::= operator_and <relational_expr> |  operator_or <relational_expr> 	| î;
+
+<logical_expr>		::= <logical_factor> <logical_expr1>;
+<logical_expr1>		::= operator_eq <logical_expr> 	| operator_neq <logical_expr>		| î;
+
+<logical_factor>		::= <expr> | true | false; 
+
+<expr> 			::= <term> <expr1> ; 
+<expr1> 			::= operator_add <expr> | operator_sub <expr> | 	operator_mod <expr>	| î;
+
+<term> 			::= <factor> <term1> ;
+<term1> 			::= operator_mul <term> 		| operator_div <term> 			| î;
+
+<factor> 			::= operator_sub number | number | parenthese_open <expr>  parenthese_close | <id> ; 
+
+
+<id>			::= id;
+

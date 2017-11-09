@@ -1,0 +1,47 @@
+<program> <{> <stmts> <}>
+<stmts> <stmt> <stmts>
+<stmts> <ì>
+<stmt> <decl>
+<stmt> <{> <stmts> <}>
+<stmt> <if_stmt>
+<stmt> <while_nt>
+<stmt> <id_nt> <complement> <;>
+<stmt> <assing> <;>
+<decl> <int> <id_nt> <initializer> <;>
+<initializer> <=> <expr>
+<initializer> <ì>
+<complement> <assing>
+<complement> <func_call>
+<assing> <initializer>
+<func_call> <(> <param> <)>
+<param> <expr>
+<param> <string>
+<if_stmt> <if> <(> <relational_expr> <)> <stmt> <else_stmt> <endif>
+<else_stmt> <else> <stmt>
+<else_stmt> <ì>
+<while_nt> <while> <(> <relational_expr> <)> <stmt>
+<relational_expr> <logical_expr> <relational_expr1>
+<relational_expr1> <&&> <relational_expr>
+<relational_expr1> <||> <relational_expr>
+<relational_expr1> <ì>
+<logical_expr> <logical_factor> <logical_expr1>
+<logical_expr1> <==> <logical_expr>
+<logical_expr1> <!=> <logical_expr>
+<logical_expr1> <ì>
+<logical_factor> <expr>
+<logical_factor> <true>
+<logical_factor> <false>
+<expr> <term> <expr1>
+<expr1> <+> <expr>
+<expr1> <-> <expr>
+<expr1> <%> <expr>
+<expr1> <ì>
+<term> <factor> <term1>
+<term1> <*> <term>
+<term1> </> <term>
+<term1> <ì>
+<factor> <-> <literal>
+<factor> <literal>
+<factor> <(> <expr> <)>
+<factor> <id_nt>
+<id_nt> <id> 
