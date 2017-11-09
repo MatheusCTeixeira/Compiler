@@ -6,34 +6,36 @@ namespace comp{
         this->read_production();         
     }
 
-    void syn_analyzer::process(std::vector<std::string>&& tokens){        
-        std::vector<std::string> tok{tokens};
+    void syn_analyzer::process(std::vector<lex_analyzer::token_type>&& tokens){        
+        std::vector<lex_analyzer::token_type> tok{tokens};
         this->m_stack.push("program");
         
         // analizar condição de parada em caso de erro!!!!
         while (!this->m_stack.empty() && !tok.empty()){                    
              
             if (this->is_not_terminal(this->m_stack.top())){
-                this->m_log.push(std::pair<std::string, std::string>{this->m_stack.top(), tok.front()} );
+                this->m_log.push(std::pair<std::string, std::string>{this->m_stack.top(), tok.front().m_token} );
 
                 std::string top = this->m_stack.top();
                 this->m_stack.pop();
                 
-                for (int i = this->m_production[this->m_map[top][tok.front()]].size()-1; i> 0; --i)
-                    this->m_stack.push(this->m_production[this->m_map[top][tok.front()]][i]);   
+                for (int i = this->m_production[this->m_map[top][tok.front().m_token]].size()-1; i> 0; --i)
+                    this->m_stack.push(this->m_production[this->m_map[top][tok.front().m_token]][i]);   
                                            
                 
-            } else if (this->m_stack.top() == tok.front()){
-                this->m_log.push(std::pair<std::string, std::string>{this->m_stack.top(), tok.front()} );
+            } else if (this->m_stack.top() == tok.front().m_token){
+                this->m_log.push(std::pair<std::string, std::string>{this->m_stack.top(), tok.front().m_token} );
                 this->m_stack.pop();
                 tok.erase(tok.begin(), tok.begin()+1);
                
                 
             } else if (this->m_stack.top() == "ì"){
-                this->m_log.push(std::pair<std::string, std::string>{this->m_stack.top(), tok.front()} );
+                this->m_log.push(std::pair<std::string, std::string>{this->m_stack.top(), tok.front().m_token} );
                 this->m_stack.pop();  
             } else {
-                std::cout << "erro" << std::endl;
+                std::cout << "error: unexpected syntax" << std::endl;
+                std::cout << "\t" << "at line:" << tok.front().m_line << " column: " << tok.front().m_column << std::endl;
+                return;
             }
            
         }               

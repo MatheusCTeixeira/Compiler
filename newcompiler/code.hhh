@@ -1,6 +1,6 @@
 
 {
-	int n = num-1;
+	int n = int;
 
 	while (n != 1 && (num % n) != 0)
 		n = n-1;

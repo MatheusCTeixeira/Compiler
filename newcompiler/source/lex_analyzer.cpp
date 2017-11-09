@@ -120,11 +120,11 @@ namespace comp{
             std::cout << std::setw(15) << token.m_token << " | " << std::setw(15) << token.m_lexeme << " | " << std::setw(7) << token.m_line << " | " << std::setw(7) << token.m_column << std::endl;
     }
 
-    std::vector<std::string>&& lex_analyzer::tokens(){
-        std::vector<std::string> result;
+    std::vector<lex_analyzer::token_type>&& lex_analyzer::tokens(){
+        std::vector<lex_analyzer::token_type> result;
 
         for (auto r:this->m_result)
-            result.push_back(r.m_token);
+            result.push_back(r);
 
         return std::move(result);
     }

@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <vector>
 
-
+#include "lex_analyzer.hpp"
 #include "file_reader.hpp"
 #include "file_writer.hpp"
 
@@ -19,7 +19,7 @@ namespace comp{
     public:
         syn_analyzer();
 
-        void process(std::vector<std::string>&& tokens);
+        void process(std::vector<lex_analyzer::token_type>&& tokens);
         void print_log();
 
         ~syn_analyzer();

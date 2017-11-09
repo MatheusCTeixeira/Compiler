@@ -9,6 +9,13 @@
 #define _LEX_ANALYZER_
 
 namespace comp{
+    struct triple_result{
+        std::string m_token;
+        
+        int m_line;
+        int m_column;
+    };
+
     class lex_analyzer{
         struct quaternion_result{
             std::string m_token;
@@ -25,13 +32,15 @@ namespace comp{
         };
 
     public:
+        using token_type = lex_analyzer::quaternion_result; 
+
         lex_analyzer(const std::string& source );
 
         void process();
         void analyzer();
         void optimize();
         void list_token();
-        std::vector<std::string>&& tokens();
+        std::vector<lex_analyzer::token_type>&& tokens();
 
     private:
         /*
@@ -61,7 +70,7 @@ namespace comp{
         std::string m_source;
     };
 
-    
+        
 }
 
 #endif
