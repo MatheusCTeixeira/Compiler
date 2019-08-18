@@ -1,0 +1,19 @@
+{
+    int g = 200;
+
+    g = g * 3;
+    print(g);
+
+    g = g - 200*2;
+    print(g);
+
+    g = g / 100;
+    print(g);
+
+    g = g + 1;
+    print(g);
+
+    g = g % 2;
+    print(g);
+    
+}

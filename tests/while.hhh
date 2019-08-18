@@ -1,0 +1,14 @@
+{
+    int i = 10;
+    int n;
+
+    while (i != 0)
+    {
+        i = i - 1;
+        print(i);
+    }
+    endwhile
+
+
+
+}

@@ -19,9 +19,9 @@ namespace comp{
     public:
         syn_analyzer();
 
-        void process(std::vector<lex_analyzer::token_type>&& tokens);
+        void process(std::vector<lex_analyzer::token_type> tokens);
         void print_log();
-
+		bool has_error() const;
         ~syn_analyzer();
 
     protected:
@@ -36,6 +36,8 @@ namespace comp{
         std::stack<std::string> m_stack;
         std::vector<std::vector<std::string>> m_production;// non-terminal, terminal or non-terminal ... --> <non-terminal> ::= <terminal or non-terminal>... 
         std::unordered_map<std::string, std::unordered_map<std::string, int>> m_map;//nonterminal, terminal
+
+		bool m_has_error = false;
     };
 }
 

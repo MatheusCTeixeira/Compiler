@@ -1,4 +1,4 @@
-#include "../header//lex_analyzer.hpp"
+#include "../header/lex_analyzer.hpp"
 
 namespace comp{
     lex_analyzer::lex_analyzer(const std::string& source)
@@ -34,6 +34,9 @@ namespace comp{
         this->m_terminal.push_back("else");
         this->m_terminal.push_back("endif");
         this->m_terminal.push_back("while");
+		this->m_terminal.push_back("endwhile");
+        this->m_terminal.push_back("print");
+        this->m_terminal.push_back("scan");
         
         this->m_non_terminal.push_back(std::pair<std::string, std::string>{"string", "^(\"[[:blank:][:print:]]*\")"});
         this->m_non_terminal.push_back(std::pair<std::string, std::string>{"literal", "^([[:digit:]]+)"});
@@ -51,7 +54,7 @@ namespace comp{
         int line = 1, col = 0;
         int cursor = 0;
 
-        while (cursor < m_source.size()){
+        while (cursor < (int)m_source.size()){
             if (this->m_source[cursor] == ' ' || this->m_source[cursor] == '\t') {++col; ++cursor; continue;};
             if (this->m_source[cursor] == '\n'){ col = 0; ++line; ++cursor; continue;  } 
 
@@ -82,13 +85,13 @@ namespace comp{
     }
 
     void lex_analyzer::analyzer(){        
-        for (int i =0; i < this->m_result.size(); ++i)
+        for (int i =0; i < (int)this->m_result.size(); ++i)
             if (this->m_result[i].m_token.empty())
                 for (auto reg_ex: this->m_non_terminal)
                     if (this->match_regex(this->m_result[i].m_lexeme, std::get<1>(reg_ex)))
                         this->m_result[i].m_token = std::get<0>(reg_ex);
                         
-        for (int i =0; i < this->m_result.size(); ++i)
+        for (int i =0; i < (int)this->m_result.size(); ++i)
             if (this->m_result[i].m_token.empty() || this->m_result[i].m_token.compare("error") == 0){
                 this->m_error.push_back(quaternion_error{this->m_result[i].m_lexeme, std::vector<std::string>{}, this->m_result[i].m_line, this->m_result[i].m_column});                 
                 this->m_result.erase(this->m_result.begin() + i, this->m_result.begin() + i + 1);
@@ -108,7 +111,7 @@ namespace comp{
         for (auto error: this->m_error)
         {
             std::cout << error.m_lexeme << " at: " << "["<< error.m_line << ", " << error.m_column << "]" << std::endl;
-            for (int i = 0; i< error.m_sugestion.size(); ++i)
+            for (int i = 0; i< (int)error.m_sugestion.size(); ++i)
                 std::cout << "\t" << "[" << i << "]: " << error.m_sugestion[i] << std::endl;
             std::cout << std::endl;
         }
@@ -120,13 +123,18 @@ namespace comp{
             std::cout << std::setw(15) << token.m_token << " | " << std::setw(15) << token.m_lexeme << " | " << std::setw(7) << token.m_line << " | " << std::setw(7) << token.m_column << std::endl;
     }
 
-    std::vector<lex_analyzer::token_type>&& lex_analyzer::tokens(){
+	bool lex_analyzer::has_error() const
+	{
+		return ((int)this->m_error.size() > 0);
+	}
+
+    std::vector<lex_analyzer::token_type> lex_analyzer::tokens(){
         std::vector<lex_analyzer::token_type> result;
 
         for (auto r:this->m_result)
             result.push_back(r);
 
-        return std::move(result);
+        return result;
     }
 
     int lex_analyzer::match_operator(int pos) const{
@@ -141,7 +149,7 @@ namespace comp{
             return 0;
         
         // testa se não é um não-terminal que inicia como um terminal
-        if ((this->m_source.size() > ret + pos) &&
+        if (((int)this->m_source.size() > (ret + pos)) &&
             (std::string{this->m_source[ret + pos]}.find_first_of("\n {}!*()-+;=&|/%\0") == 0))
                 return ret;
 

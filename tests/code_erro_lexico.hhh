@@ -1,0 +1,38 @@
+
+{
+	int n = 1/(4-(1+2));
+$	
+	int num;
+	while (n != 1 && (num % n) != 0)
+		n = n-1;
+	endwhile
+	if (n==1)
+		print("primo");
+	else
+		print("nao_primo");
+	endif
+	{		
+		int n;
+		{
+			int n;
+			{				
+				int n;
+				{
+					int n;
+					{
+						int n;
+						int num;										
+					}
+					int num;
+					
+				}
+				int num;				
+			}
+			int num;
+			
+		}
+		int num;
+	}
+}
+
+

@@ -34,6 +34,10 @@ true: "true"
 false: "false"
 string: {string}
 
+print: "print"
+scan: "scan"
+
+
 number: {number}
 id: {id}
 
@@ -56,6 +60,7 @@ begin: "{"
 end: "}"
 parenthese_open: "("
 parenthese_close: ")"
+
 
 
 
@@ -103,14 +108,16 @@ parenthese_close: ")"
 <stmt>			::= <if> | <while>;
 <stmt>			::= <id><complement> end_stmt;
 <stmt>			::= <assing>  end_stmt;
+<stmt>			::= <func_call>end_stmt;
 
 <decl>			::= type <id> <initializer> end_stmt;
 <initializer>		::= assing <expr> | î;
 
-<complement>		::= <assing> | <func_call>;
+<complement>		::= <assing>;
 
 <assing>			::= <initializer>;
-<func_call>		::= parenthese_open <param> parenthese_close;
+<func_call>		::= print parenthese_open <param> parenthese_close;
+<func_call>		::= scan parenthese_open <id> parenthese_close;
 <param>			::= <expr> | string;
 
 <if> 			::= condition_if parenthese_open <relational_expr> parenthese_close <stmt> <else> end_if;

@@ -40,7 +40,8 @@ namespace comp{
         void analyzer();
         void optimize();
         void list_token();
-        std::vector<lex_analyzer::token_type>&& tokens();
+		bool has_error() const;
+        std::vector<lex_analyzer::token_type> tokens();
 
     private:
         /*

@@ -1,0 +1,25 @@
+{
+	int y;
+
+	print("Digite_um_numero:");
+	scan(y);
+
+	int n = y - 1;
+
+	while (n!=1 && y % n != 0)
+	{
+		n = n - 1;
+	}
+	endwhile
+
+	if (n==1)
+	{
+		print("E_primo");
+	}
+	else
+	{
+		print("Nao_e_primo");
+	}
+	endif
+
+}
