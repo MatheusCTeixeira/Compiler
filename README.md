@@ -45,7 +45,7 @@ O arquivo "output.asm" é o arquivo de saída. Diferente do gcc/g++, não é nec
 
 O arquivo ```/test``` contém diversos exemplos de códigos na linguagem HHH.
 
-# Exemplo
+# Amostras
 ### Entrada
 ```c
 {
